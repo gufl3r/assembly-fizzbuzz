@@ -5,6 +5,7 @@
 ; Setting up constants for system calls and file descriptors
 OUTPUT_FILEDESCRIPTOR EQU 1d
 SC_WRITE EQU 1d
+SC_EXIT EQU 60d
 
 ; Declaring global entry point
 global _start
@@ -14,8 +15,8 @@ section .data ; Initialized variables
     countdisplayten db 48d               ; Holds tens place of the count to be displayed
     realcount dw 0d                      ; Actual count
     fizzorbuzz db 0d                     ; Flag to determine if it's a Fizz, Buzz, or FizzBuzz
-    fizz db "Fizz", 0              ; String "Fizz"
-    buzz db "Buzz", 0              ; String "Buzz"
+    fizz db "Fizz", 0                    ; String "Fizz"
+    buzz db "Buzz", 0                    ; String "Buzz"
 
     char_newline db 10d                  ; Newline character
 
@@ -67,7 +68,7 @@ section .text ; Code
             ; Writing "Fizz" to stdout
             mov rax, SC_WRITE
             mov rdi, OUTPUT_FILEDESCRIPTOR
-            mov rsi, fizz           ; Pointer to string
+            mov rsi, fizz                 ; Pointer to string
             mov rdx, 5d                   ; String size
             syscall
             inc byte [fizzorbuzz]
@@ -77,7 +78,7 @@ section .text ; Code
             ; Writing "Buzz" to stdout
             mov rax, SC_WRITE
             mov rdi, OUTPUT_FILEDESCRIPTOR
-            mov rsi, buzz           ; Pointer to string
+            mov rsi, buzz                 ; Pointer to string
             mov rdx, 5d                   ; String size
             syscall
             inc byte [fizzorbuzz]
@@ -106,6 +107,6 @@ section .text ; Code
 
         loopend:
             ; Exiting the program
-            mov rax, 60                   ; Exit syscall number
+            mov rax, SC_EXIT
             mov rdi, 0                    ; Exit status
             syscall
