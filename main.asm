@@ -42,7 +42,7 @@ section .text ; Code
             ; Checking if countdisplayunit exceeds 9, incrementing countdisplayten accordingly
             cmp byte [countdisplayunit], 58d
             jne checkfizz
-            sub byte [countdisplayunit], 10d
+            mov byte [countdisplayunit], 48d
             inc byte [countdisplayten]
 
         checkfizz:
