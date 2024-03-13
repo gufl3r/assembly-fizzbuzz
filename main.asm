@@ -14,8 +14,8 @@ section .data ; Initialized variables
     countdisplayten db 48d               ; Holds tens place of the count to be displayed
     realcount dw 0d                      ; Actual count
     fizzorbuzz db 0d                     ; Flag to determine if it's a Fizz, Buzz, or FizzBuzz
-    fizzstring db "Fizz", 0              ; String "Fizz"
-    buzzstring db "Buzz", 0              ; String "Buzz"
+    fizz db "Fizz", 0              ; String "Fizz"
+    buzz db "Buzz", 0              ; String "Buzz"
 
     char_newline db 10d                  ; Newline character
 
@@ -51,7 +51,7 @@ section .text ; Code
             mov bx, 3d
             div bx
             cmp dx, 0d
-            je fizz
+            je isfizz
 
         checkbuzz:
             ; Checking if the current count is divisible by 5
@@ -60,24 +60,24 @@ section .text ; Code
             mov bx, 5d
             div bx
             cmp dx, 0d
-            je buzz
+            je isbuzz
             jmp endfizzbuzz
 
-        fizz:
+        isfizz:
             ; Writing "Fizz" to stdout
             mov rax, SC_WRITE
             mov rdi, OUTPUT_FILEDESCRIPTOR
-            mov rsi, fizzstring           ; Pointer to string
+            mov rsi, fizz           ; Pointer to string
             mov rdx, 5d                   ; String size
             syscall
             inc byte [fizzorbuzz]
             jmp checkbuzz
 
-        buzz:
+        isbuzz:
             ; Writing "Buzz" to stdout
             mov rax, SC_WRITE
             mov rdi, OUTPUT_FILEDESCRIPTOR
-            mov rsi, buzzstring           ; Pointer to string
+            mov rsi, buzz           ; Pointer to string
             mov rdx, 5d                   ; String size
             syscall
             inc byte [fizzorbuzz]
